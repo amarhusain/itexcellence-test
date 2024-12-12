@@ -22,8 +22,8 @@ public class DepartmentController {
     }
 
     @PostMapping()
-    public List<Department> saveAllDepartments(@RequestBody List<Department> departments) {
-        return departmentService.saveAllDepartments(departments);
+    public DepartmentDTO createDepartment(@RequestBody DepartmentDTO departmentDTO) {
+        return departmentService.createDepartment(departmentDTO);
     }
 
 
