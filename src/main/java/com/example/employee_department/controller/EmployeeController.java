@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/employees")
 @RequiredArgsConstructor
@@ -42,6 +43,12 @@ public class EmployeeController {
         employeeService.deleteEmployee(employeeId);
     }
 
+    @GetMapping("/emp/{id}")
+    public EmployeeDTO getEmployeeById(@PathVariable String id) {
+        return employeeService.getEmployeeById(id);
+
+    }
+
 
     @GetMapping(value = "/reports", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> generateEmployeeReport() {
@@ -59,5 +66,19 @@ public class EmployeeController {
         }
     }
 
+    // Update Employee
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(
+            @PathVariable String id,
+            @RequestBody EmployeeDTO employeeDetails) {
+        EmployeeDTO updatedEmployee = employeeService.updateEmployee(id, employeeDetails);
+        return ResponseEntity.ok(updatedEmployee);
+    }
 
+    // Delete Employee
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable String id) {
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
+    }
 }

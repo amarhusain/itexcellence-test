@@ -1,5 +1,7 @@
 package com.example.employee_department.exceptions;
 
+
+
 import java.util.Map;
 
 public class ValidationException extends RuntimeException {

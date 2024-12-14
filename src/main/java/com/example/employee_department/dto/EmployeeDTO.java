@@ -16,4 +16,7 @@ public class EmployeeDTO {
     private String email;
     private String position;
     private double salary;
+    private String department;
+
+
 }

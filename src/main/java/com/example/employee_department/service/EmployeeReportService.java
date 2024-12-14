@@ -1,6 +1,5 @@
 package com.example.employee_department.service;
 
-
 import com.example.employee_department.Model.Department;
 import com.example.employee_department.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @Service
 @RequiredArgsConstructor

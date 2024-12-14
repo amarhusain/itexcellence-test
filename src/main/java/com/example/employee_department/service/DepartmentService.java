@@ -4,15 +4,19 @@ import com.example.employee_department.Model.Department;
 import com.example.employee_department.Model.Employee;
 import com.example.employee_department.dto.DepartmentDTO;
 import com.example.employee_department.dto.EmployeeDTO;
+
 import com.example.employee_department.exceptions.DuplicateResourceException;
 import com.example.employee_department.exceptions.ValidationException;
 import com.example.employee_department.repository.DepartmentRepository;
+import com.example.employee_department.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,8 +74,8 @@ public class DepartmentService {
         dto.setLocation(department.getLocation());
         if(department.getEmployees() != null){
             dto.setEmployees(department.getEmployees().stream()
-                .map(this::convertEmployeeToDTO)
-                .collect(Collectors.toList()));
+                    .map(this::convertEmployeeToDTO)
+                    .collect(Collectors.toList()));
         }
         return dto;
     }
@@ -88,5 +92,4 @@ public class DepartmentService {
 
 
 }
-
 

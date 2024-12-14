@@ -21,11 +21,12 @@ public class DepartmentController {
         return departmentService.getAllDepartments();
     }
 
+
+
     @PostMapping()
     public DepartmentDTO createDepartment(@RequestBody DepartmentDTO departmentDTO) {
         return departmentService.createDepartment(departmentDTO);
     }
-
 
 }
 

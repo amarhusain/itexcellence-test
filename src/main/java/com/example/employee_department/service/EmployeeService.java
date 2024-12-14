@@ -1,21 +1,26 @@
 package com.example.employee_department.service;
 
 
+
 import com.example.employee_department.Model.Department;
 import com.example.employee_department.Model.Employee;
+import com.example.employee_department.dto.DepartmentDTO;
 import com.example.employee_department.dto.EmployeeDTO;
+
 import com.example.employee_department.exceptions.DuplicateResourceException;
 import com.example.employee_department.exceptions.ResourceNotFoundException;
 import com.example.employee_department.exceptions.ValidationException;
 import com.example.employee_department.repository.DepartmentRepository;
 import com.example.employee_department.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +47,14 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    // Method to get employee by ID
+    public EmployeeDTO getEmployeeById(String employeeId) {
+
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException(
+                "Department not found with id: " + employeeId));
+
+        return convertToDTO(employee);
+    }
 
     @Transactional
     public EmployeeDTO addEmployee(String departmentId, EmployeeDTO employeeDTO) {
@@ -70,6 +83,24 @@ public class EmployeeService {
         return convertToDTO(employeeRepository.save(employee));
     }
 
+
+    // Update Employee
+    public EmployeeDTO updateEmployee(String id, EmployeeDTO updatedEmployee) {
+        Optional<Employee> existingEmployee = employeeRepository.findById(id);
+
+        if (existingEmployee.isPresent()) {
+            Employee employee = existingEmployee.get();
+            employee.setName(updatedEmployee.getName());
+            employee.setEmail(updatedEmployee.getEmail());
+            employee.setPosition(updatedEmployee.getPosition());
+            employee.setSalary(updatedEmployee.getSalary());
+
+            return convertToDTO(employeeRepository.save(employee));
+        } else {
+            throw new RuntimeException("Employee not found with ID: " + id);
+        }
+    }
+
     @Transactional
     public void deleteEmployee(String employeeId) {
         if (!employeeRepository.existsById(employeeId)) {
@@ -87,6 +118,7 @@ public class EmployeeService {
                 .email(employee.getEmail())
                 .position(employee.getPosition())
                 .salary(employee.getSalary())
+                .department(employee.getDepartment().getName())
                 .build();
     }
 
